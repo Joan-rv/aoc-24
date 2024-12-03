@@ -13,20 +13,29 @@ int string_to_int(char** n) {
     return r;
 }
 
-/*
-bool is_safe(int* data, size_t size, bool dampen) {
+bool is_tolerate_safe_efficient(int* data, size_t size, bool dampen) {
+    if (!dampen) {
+        int tmp = data[0];
+        data[0] = 0;
+        if (is_tolerate_safe_efficient(data, size, true)) {
+            return true;
+        }
+        data[0] = tmp;
+    }
     bool increasing;
     int prev = data[0];
+    int start_i = 1;
     if (data[0] == 0) {
         increasing = data[1] < data[2];
         prev = data[1];
+        start_i = 2;
     } else if (data[1] == 0) {
         increasing = data[0] < data[2];
     } else {
         increasing = data[0] < data[1];
     }
 
-    for (size_t i = 1; i < size; i++) {
+    for (size_t i = start_i; i < size; i++) {
         if (data[i] == 0) {
             continue;
         }
@@ -42,16 +51,15 @@ bool is_safe(int* data, size_t size, bool dampen) {
             }
             int tmp = data[i];
             data[i] = 0;
-            bool r = is_safe(data, size, true);
+            bool r = is_tolerate_safe_efficient(data, size, true);
             data[i - 1] = 0;
             data[i] = tmp;
-            return (r || is_safe(data, size, true));
+            return (r || is_tolerate_safe_efficient(data, size, true));
         }
         prev = data[i];
     }
     return true;
 }
-*/
 
 bool is_safe(int* data, size_t size) {
     bool increasing;
@@ -90,6 +98,7 @@ bool is_tolerate_safe(int* data, size_t size) {
         int tmp = data[i];
         data[i] = 0;
         if (is_safe(data, size)) {
+            data[i] = tmp;
             return true;
         }
         data[i] = tmp;
@@ -113,7 +122,7 @@ int main() {
             data = realloc(data, s * sizeof(int));
             data[s - 1] = string_to_int(&line);
         }
-        if (is_tolerate_safe(data, s)) {
+        if (is_tolerate_safe_efficient(data, s, false)) {
             n++;
         }
         free(saved);
