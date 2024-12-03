@@ -108,6 +108,9 @@ bool is_tolerate_safe(int* data, size_t size) {
 
 int main() {
     int input = open("input", O_RDONLY);
+    if (input < 0) {
+        perror("open");
+    }
     int n = 0;
     char* line;
     while ((line = get_next_line(input))) {

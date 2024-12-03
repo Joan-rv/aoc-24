@@ -46,6 +46,9 @@ bool is_safe(char* line) {
 
 int main() {
     int input = open("input", O_RDONLY);
+    if (input < 0) {
+        perror("open");
+    }
     int n = 0;
     char* line;
     while ((line = get_next_line(input))) {
