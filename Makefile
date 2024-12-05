@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror -g
 AR=ar
 RM=rm -f
-BIN=1/solution1 1/solution2 2/solution1 2/solution2 3/solution1 3/solution2 4/solution1 4/solution2
+BIN=1/solution1 1/solution2 2/solution1 2/solution2 3/solution1 3/solution2 4/solution1 4/solution2 5/solution1 5/solution2
 
 .PHONY: clean all
 
