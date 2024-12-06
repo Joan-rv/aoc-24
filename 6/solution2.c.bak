@@ -1,0 +1,135 @@
+#include <fcntl.h>
+#include <libgnl.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+ * DOES NOT WORK
+ * Tries to be efficient and search for valid positions, instead of brute
+ * forcing, but there are some errors
+ */
+
+typedef enum Direction { North, East, South, West } Direction;
+void print_board(char** lines, int n, int m) {
+    for (int i = 0; i < n; i++) {
+        printf("%.*s", m, lines[i]);
+    }
+    printf("\n");
+}
+int main() {
+    int input = open("input.test", O_RDONLY);
+    if (input < 0) {
+        perror("open");
+    }
+    int n = 0;
+    char** lines = NULL;
+    char* line;
+    while ((line = get_next_line(input))) {
+        n++;
+        lines = realloc(lines, n * sizeof(char*));
+        lines[n - 1] = line;
+    }
+    int m = strlen(lines[0]);
+
+    int i = 0;
+    int j = 0;
+    bool found = false;
+    while (i < n && !found) {
+        j = 0;
+        while (j < m && !found) {
+            if (lines[i][j] == '^') {
+                found = true;
+            }
+            j++;
+        }
+        i++;
+    }
+    i--;
+    j--;
+
+    int count = 0;
+    Direction direction = North;
+    while (i >= 0 && j >= 0 && i < n && j < m) {
+        if (lines[i][j] == '-' || lines[i][j] == '|') {
+            lines[i][j] = '+';
+        } else if (direction == North || direction == South) {
+            lines[i][j] = '|';
+        } else {
+            lines[i][j] = '-';
+        }
+
+        int new_i = i;
+        int new_j = j;
+        if (direction == North) {
+            new_i--;
+        } else if (direction == South) {
+            new_i++;
+        } else if (direction == East) {
+            new_j++;
+        } else if (direction == West) {
+            new_j--;
+        }
+        if (new_i >= 0 && new_j >= 0 && new_i < n && new_j < m) {
+            if (direction == North && j + 1 < m) {
+                if (lines[new_i][new_j] != '#' &&
+                    (lines[i][j + 1] == '-' || lines[i][j + 1] == '+')) {
+                    print_board(lines, n, m);
+                    count++;
+                }
+            } else if (direction == South && j - 1 >= 0) {
+                if (lines[new_i][new_j] != '#' && (lines[i][j - 1] == '-')) {
+                    print_board(lines, n, m);
+                    count++;
+                }
+                if (j - 2 >= 0) {
+                    if (lines[i][j - 1] == '+' && lines[i][j - 2] == '#') {
+                        print_board(lines, n, m);
+                        count++;
+                    }
+                }
+            } else if (direction == East && i + 1 < n) {
+                if (lines[new_i][new_j] != '#' &&
+                    (lines[i + 1][j] == '|' || lines[i + 1][j] == '+')) {
+                    print_board(lines, n, m);
+                    count++;
+                }
+            } else if (direction == West && i - 1 >= 0) {
+                if (lines[new_i][new_j] != '#' &&
+                    (lines[i - 1][j] == '|' || lines[i - 1][j] == '+')) {
+                    print_board(lines, n, m);
+                    count++;
+                }
+            }
+            if (lines[new_i][new_j] == '#') {
+                lines[i][j] = '+';
+                if (direction == West) {
+                    direction = North;
+                } else {
+                    direction++;
+                }
+                if (direction == North) {
+                    i--;
+                } else if (direction == South) {
+                    i++;
+                } else if (direction == East) {
+                    j++;
+                } else if (direction == West) {
+                    j--;
+                }
+            } else {
+                i = new_i;
+                j = new_j;
+            }
+        } else {
+            i = new_i;
+            j = new_j;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        free(lines[i]);
+    }
+    printf("Count of distinct positions: %d\n", count);
+}
