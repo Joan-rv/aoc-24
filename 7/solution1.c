@@ -37,7 +37,7 @@ ull eval_eq(ull* n, size_t n_s, ull op) {
 }
 
 bool can_be_solved(ull t, ull* n, size_t n_s) {
-    for (ull op = 0; op < pow_i(2, n_s) - 1; op++) {
+    for (ull op = 0; op < pow_i(2, n_s - 1); op++) {
         if (eval_eq(n, n_s, op) == t) {
             return true;
         }
