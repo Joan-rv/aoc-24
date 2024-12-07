@@ -81,5 +81,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         free(lines[i]);
     }
+    free(lines);
     printf("Count of all occurrences: %d\n", count);
 }

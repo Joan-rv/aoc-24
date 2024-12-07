@@ -115,5 +115,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         free(lines[i]);
     }
+    free(lines);
     printf("Count of distinct positions: %d\n", count);
 }
