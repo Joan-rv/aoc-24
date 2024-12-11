@@ -9,7 +9,7 @@ BIN=$(patsubst %.c, %, $(wildcard **/*.c))
 all: $(BIN)
 
 $(BIN): %: %.o
-	$(CC) -lgnl $^ -o $@
+	$(CC) -lgnl -lm $^ -o $@
 %.o: %.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
