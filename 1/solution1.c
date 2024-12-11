@@ -49,8 +49,8 @@ int main() {
         perror("open");
         return -1;
     }
-    int* l1;
-    int* l2;
+    int* l1 = NULL;
+    int* l2 = NULL;
     size_t s1 = 0;
     size_t s2 = 0;
     char* line;

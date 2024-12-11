@@ -115,7 +115,7 @@ int main() {
     char* line;
     while ((line = get_next_line(input))) {
         char* saved = line;
-        int* data;
+        int* data = NULL;
         size_t s = 0;
         while (*line != '\n' && *line != '\0') {
             while (*line == ' ') {
