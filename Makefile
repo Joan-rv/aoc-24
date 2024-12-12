@@ -1,7 +1,7 @@
 CC=gcc
 CXX=g++
 CXXFLAGS=-Wall -Wextra -Werror -g
-CFLAGS=-O2 -Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -Werror -g
 AR=ar
 RM=rm -f
 BIN=$(patsubst %.c, %, $(wildcard **/*.c))
