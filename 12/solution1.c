@@ -7,13 +7,6 @@
 
 typedef unsigned long long ull;
 
-void add_perimeter(int* perimeter, int i, int j, bool** counted) {
-    // if (!counted[i][j]) {
-    (*perimeter)++;
-    counted[i][j] = true;
-    //}
-}
-
 void find_fence(char** lines, int n, int m, int i, int j, int* perimeter,
                 int* area) {
     (*area)++;
