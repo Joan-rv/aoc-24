@@ -14,7 +14,7 @@ all: $(BIN) $(BINXX)
 $(BIN): %: %.o
 	$(CC) -lgnl -lm $^ -o $@
 $(BINXX): %: %.o
-	$(CXX) $^ -o $@
+	$(CXX) -lgnl $^ -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $^ -o $@
