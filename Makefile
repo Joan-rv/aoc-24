@@ -11,6 +11,9 @@ BINXX=$(patsubst %.cpp, %, $(wildcard **/*.cpp))
 
 all: $(BIN) $(BINXX)
 
+opt: CFLAGS+=-O2
+opt: all
+
 $(BIN): %: %.o
 	$(CC) -lgnl -lm $^ -o $@
 $(BINXX): %: %.o
